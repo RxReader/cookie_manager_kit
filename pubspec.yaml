@@ -1,8 +1,8 @@
 name: fake_cookie_manager
-description: A new Flutter plugin.
+description: A powerful cookie manager plugin for Flutter.
 version: 0.0.1
-author:
-homepage:
+author: v7lin <v7lin@qq.com>
+homepage: https://github.com/v7lin/fake_cookie_manager
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  meta: ^1.1.6
 
 dev_dependencies:
   flutter_test:
