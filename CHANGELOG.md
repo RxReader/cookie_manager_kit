@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.1 - 2019.3.15
 
-* TODO: Describe initial release.
+* android/ios webkit cookie manager
