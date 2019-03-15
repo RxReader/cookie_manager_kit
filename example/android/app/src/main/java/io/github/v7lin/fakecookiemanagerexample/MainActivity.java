@@ -1,6 +1,7 @@
-package io.github.v7lin.fake_cookie_manager_example;
+package io.github.v7lin.fakecookiemanagerexample;
 
 import android.os.Bundle;
+
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 

@@ -1,56 +1,93 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fake_cookie_manager/fake_cookie_manager.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runZoned(() {
+    runApp(MyApp());
+  }, onError: (dynamic error, dynamic stack) {
+    print(error);
+    print(stack);
+  });
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FakeCookieManager.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  static const String TEST_URL =
+      'http://rap.xrjiot.cn/mockjsdata/13/api/app/v1/login';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('FakeCookieManager Demo'),
       ),
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text('保存Cookie'),
+            onTap: () async {
+              Cookie cookie = Cookie.fromSetCookieValue(
+                  'JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
+              await CookieManager.shared().saveCookies(TEST_URL, [cookie]);
+              _showTips('保存Cookie', 'cookie: ${cookie.toString()}');
+            },
+          ),
+          ListTile(
+            title: Text('读取Cookie'),
+            onTap: () async {
+              List<Cookie> cookies =
+                  await CookieManager.shared().loadCookies(TEST_URL);
+              if (cookies != null && cookies.isNotEmpty) {
+                _showTips('读取Cookie', 'cookie: ${cookies[0].toString()}');
+              } else {
+                _showTips('读取Cookie', '没有相关Cookie');
+              }
+            },
+          ),
+          ListTile(
+            title: Text('清除所有Cookie'),
+            onTap: () async {
+              await CookieManager.shared().clearAllCookies();
+              _showTips('清除所有Cookie', '所有Cookie都已清除');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showTips(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+        );
+      },
     );
   }
 }
