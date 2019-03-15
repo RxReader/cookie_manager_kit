@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 class CookieManager {
   const CookieManager._();
@@ -22,7 +23,10 @@ class CookieManager {
   static const MethodChannel _channel =
       MethodChannel('v7lin.github.io/fake_cookie_manager');
 
-  Future<void> saveCookies(String url, List<Cookie> cookies) {
+  Future<void> saveCookies({
+    @required String url,
+    @required List<Cookie> cookies,
+  }) {
     assert(url != null && url.isNotEmpty);
     assert(cookies != null);
     return _channel.invokeMethod(
@@ -36,7 +40,9 @@ class CookieManager {
     );
   }
 
-  Future<List<Cookie>> loadCookies(String url) {
+  Future<List<Cookie>> loadCookies({
+    @required String url,
+  }) {
     assert(url != null && url.isNotEmpty);
     return _channel.invokeMethod(
       _METHOD_LOADCOOKIES,
