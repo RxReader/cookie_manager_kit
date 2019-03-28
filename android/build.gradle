@@ -1,4 +1,4 @@
-group 'io.github.v7lin.fake_cookie_manager'
+group 'io.github.v7lin.fakecookiemanager'
 version '1.0-SNAPSHOT'
 
 buildscript {
