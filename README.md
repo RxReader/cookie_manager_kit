@@ -11,6 +11,7 @@ A powerful cookie manager plugin for Flutter.
 
 ````
 # 不需要做任何额外接入工作
+# 不需要混淆
 ````
 
 ## ios
