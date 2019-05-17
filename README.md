@@ -1,6 +1,7 @@
 # fake_cookie_manager
 
 [![Build Status](https://cloud.drone.io/api/badges/v7lin/fake_cookie_manager/status.svg)](https://cloud.drone.io/v7lin/fake_cookie_manager)
+[![Codecov](https://codecov.io/gh/v7lin/fake_cookie_manager/branch/master/graph/badge.svg)](https://codecov.io/gh/v7lin/fake_cookie_manager)
 [![GitHub Tag](https://img.shields.io/github/tag/v7lin/fake_cookie_manager.svg)](https://github.com/v7lin/fake_cookie_manager/releases)
 [![Pub Package](https://img.shields.io/pub/v/fake_cookie_manager.svg)](https://pub.dartlang.org/packages/fake_cookie_manager)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/v7lin/fake_cookie_manager/blob/master/LICENSE)

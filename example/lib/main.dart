@@ -51,8 +51,7 @@ class _HomeState extends State<Home> {
             onTap: () async {
               Cookie cookie = Cookie.fromSetCookieValue(
                   'JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
-              await CookieManager.shared()
-                  .saveCookies(url: TEST_URL, cookies: [cookie]);
+              await CookieManager.saveCookies(url: TEST_URL, cookies: [cookie]);
               _showTips('保存Cookie', 'cookie: ${cookie.toString()}');
             },
           ),
@@ -60,7 +59,7 @@ class _HomeState extends State<Home> {
             title: Text('读取Cookie'),
             onTap: () async {
               List<Cookie> cookies =
-                  await CookieManager.shared().loadCookies(url: TEST_URL);
+                  await CookieManager.loadCookies(url: TEST_URL);
               if (cookies != null && cookies.isNotEmpty) {
                 _showTips('读取Cookie', 'cookie: ${cookies[0].toString()}');
               } else {
@@ -71,7 +70,7 @@ class _HomeState extends State<Home> {
           ListTile(
             title: Text('清除所有Cookie'),
             onTap: () async {
-              await CookieManager.shared().clearAllCookies();
+              await CookieManager.clearAllCookies();
               _showTips('清除所有Cookie', '所有Cookie都已清除');
             },
           ),

@@ -5,14 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 class CookieManager {
-  const CookieManager._();
-
-  factory CookieManager.shared() {
-    return _instance;
-  }
-
-  static const CookieManager _instance = CookieManager._();
-
   static const String _METHOD_SAVECOOKIES = 'saveCookies';
   static const String _METHOD_LOADCOOKIES = 'loadCookies';
   static const String _METHOD_REMOVEALLCOOKIES = 'removeAllCookies';
@@ -23,7 +15,7 @@ class CookieManager {
   static const MethodChannel _channel =
       MethodChannel('v7lin.github.io/fake_cookie_manager');
 
-  Future<void> saveCookies({
+  static Future<void> saveCookies({
     @required String url,
     @required List<Cookie> cookies,
   }) {
@@ -40,7 +32,7 @@ class CookieManager {
     );
   }
 
-  Future<List<Cookie>> loadCookies({
+  static Future<List<Cookie>> loadCookies({
     @required String url,
   }) {
     assert(url != null && url.isNotEmpty);
@@ -59,7 +51,7 @@ class CookieManager {
     });
   }
 
-  Future<void> clearAllCookies() {
+  static Future<void> clearAllCookies() {
     return _channel.invokeMethod(_METHOD_REMOVEALLCOOKIES);
   }
 }
