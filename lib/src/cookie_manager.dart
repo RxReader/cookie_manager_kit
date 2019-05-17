@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 class CookieManager {
+  CookieManager._();
+
   static const String _METHOD_SAVECOOKIES = 'saveCookies';
   static const String _METHOD_LOADCOOKIES = 'loadCookies';
   static const String _METHOD_REMOVEALLCOOKIES = 'removeAllCookies';
