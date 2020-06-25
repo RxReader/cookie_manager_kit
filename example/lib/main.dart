@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
               Cookie cookie = Cookie.fromSetCookieValue(
                   'JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
               await CookieManager.saveCookies(
-                  url: _TEST_URL, cookies: [cookie]);
+                  url: _TEST_URL, cookies: <Cookie>[cookie]);
               _showTips('保存Cookie', 'cookie: ${cookie.toString()}');
             },
           ),
