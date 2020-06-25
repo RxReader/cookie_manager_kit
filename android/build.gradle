@@ -20,14 +20,23 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply from: './quality.gradle'
 
 android {
     compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
+
+        // library 混淆 -> 随 library 引用，自动添加到 apk 打包混淆
+        consumerProguardFiles 'consumer-rules.pro'
     }
+
     lintOptions {
         disable 'InvalidPackage'
     }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.0.0'
 }
