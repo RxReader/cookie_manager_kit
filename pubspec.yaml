@@ -1,8 +1,8 @@
 name: cookie_manager_kit
-description: A new flutter plugin project.
-version: 0.0.1
-author:
-homepage:
+description: A powerful cookie manager plugin for Flutter.
+version: 1.0.0
+# author: v7lin <v7lin@qq.com>
+homepage: https://github.com/v7lin/fake_cookie_manager
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,6 +15,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  pedantic:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
