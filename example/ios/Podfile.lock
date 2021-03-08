@@ -1,5 +1,5 @@
 PODS:
-  - cookie_manager_kit (1.0.0):
+  - cookie_manager_kit (2.0.0):
     - Flutter
   - Flutter (1.0.0)
 
@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  cookie_manager_kit: e962504079a5ff45c3c76cb4cac69b481a4ad640
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  cookie_manager_kit: 9475f22e01df361514bd2edbb00ad42e51f2e98d
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
 
-PODFILE CHECKSUM: f32fb4e7c14f8b3ca19a369d7be425dd9241af27
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.0

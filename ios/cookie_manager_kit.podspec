@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'cookie_manager_kit'
-  s.version          = '1.0.0'
+  s.version          = '2.0.0'
   s.summary          = 'A powerful cookie manager plugin for Flutter.'
   s.description      = <<-DESC
 A powerful cookie manager plugin for Flutter.
