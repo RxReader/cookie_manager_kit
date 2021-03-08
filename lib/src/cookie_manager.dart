@@ -13,7 +13,8 @@ class CookieManager {
   static const String _ARGUMENT_KEY_URL = 'url';
   static const String _ARGUMENT_KEY_COOKIES = 'cookies';
 
-  static const MethodChannel _channel = MethodChannel('v7lin.github.io/cookie_manager_kit');
+  static const MethodChannel _channel =
+      MethodChannel('v7lin.github.io/cookie_manager_kit');
 
   static Future<void> saveCookies({
     required String url,

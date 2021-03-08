@@ -27,20 +27,24 @@ class _MyAppState extends State<MyApp> {
                 ListTile(
                   title: const Text('保存Cookie'),
                   onTap: () async {
-                    final Cookie cookie = Cookie.fromSetCookieValue('JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
+                    final Cookie cookie = Cookie.fromSetCookieValue(
+                        'JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
                     await CookieManager.saveCookies(
                       url: _TEST_URL,
                       cookies: <Cookie>[cookie],
                     );
-                    _showTips(context, '保存Cookie', 'cookie: ${cookie.toString()}');
+                    _showTips(
+                        context, '保存Cookie', 'cookie: ${cookie.toString()}');
                   },
                 ),
                 ListTile(
                   title: const Text('读取Cookie'),
                   onTap: () async {
-                    final List<Cookie>? cookies = await CookieManager.loadCookies(url: _TEST_URL);
+                    final List<Cookie>? cookies =
+                        await CookieManager.loadCookies(url: _TEST_URL);
                     if (cookies?.isNotEmpty ?? false) {
-                      _showTips(context, '读取Cookie', 'cookie: ${cookies![0].toString()}');
+                      _showTips(context, '读取Cookie',
+                          'cookie: ${cookies![0].toString()}');
                     } else {
                       _showTips(context, '读取Cookie', '没有相关Cookie');
                     }
