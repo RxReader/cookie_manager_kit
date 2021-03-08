@@ -1,10 +1,10 @@
 # cookie_manager_kit
 
-[![Build Status](https://cloud.drone.io/api/badges/v7lin/cookie_manager_kit/status.svg)](https://cloud.drone.io/v7lin/cookie_manager_kit)
-[![Codecov](https://codecov.io/gh/v7lin/cookie_manager_kit/branch/master/graph/badge.svg)](https://codecov.io/gh/v7lin/cookie_manager_kit)
-[![GitHub Tag](https://img.shields.io/github/tag/v7lin/cookie_manager_kit.svg)](https://github.com/v7lin/cookie_manager_kit/releases)
+[![Build Status](https://cloud.drone.io/api/badges/rxreader/cookie_manager_kit/status.svg)](https://cloud.drone.io/rxreader/cookie_manager_kit)
+[![Codecov](https://codecov.io/gh/rxreader/cookie_manager_kit/branch/master/graph/badge.svg)](https://codecov.io/gh/rxreader/cookie_manager_kit)
+[![GitHub Tag](https://img.shields.io/github/tag/rxreader/cookie_manager_kit.svg)](https://github.com/rxreader/cookie_manager_kit/releases)
 [![Pub Package](https://img.shields.io/pub/v/cookie_manager_kit.svg)](https://pub.dartlang.org/packages/cookie_manager_kit)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/v7lin/cookie_manager_kit/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/rxreader/cookie_manager_kit/blob/master/LICENSE)
 
 A powerful cookie manager plugin for Flutter.
 
@@ -29,7 +29,7 @@ A powerful cookie manager plugin for Flutter.
 dependencies:
   cookie_manager_kit:
     git:
-      url: https://github.com/v7lin/cookie_manager_kit.git
+      url: https://github.com/rxreader/cookie_manager_kit.git
 ```
 
 * release
