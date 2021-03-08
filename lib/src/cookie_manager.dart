@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class CookieManager {
@@ -14,15 +13,12 @@ class CookieManager {
   static const String _ARGUMENT_KEY_URL = 'url';
   static const String _ARGUMENT_KEY_COOKIES = 'cookies';
 
-  static const MethodChannel _channel =
-      MethodChannel('v7lin.github.io/cookie_manager_kit');
+  static const MethodChannel _channel = MethodChannel('v7lin.github.io/cookie_manager_kit');
 
   static Future<void> saveCookies({
-    @required String url,
-    @required List<Cookie> cookies,
+    required String url,
+    required List<Cookie> cookies,
   }) {
-    assert(url?.isNotEmpty ?? false);
-    assert(cookies != null);
     return _channel.invokeMethod<void>(
       _METHOD_SAVECOOKIES,
       <String, dynamic>{
@@ -34,21 +30,20 @@ class CookieManager {
     );
   }
 
-  static Future<List<Cookie>> loadCookies({
-    @required String url,
+  static Future<List<Cookie>?> loadCookies({
+    required String url,
   }) async {
-    assert(url?.isNotEmpty ?? false);
-    List<dynamic> cookies = await _channel.invokeMethod<List<dynamic>>(
+    final List<dynamic>? cookies = await _channel.invokeListMethod<dynamic>(
       _METHOD_LOADCOOKIES,
       <String, dynamic>{
         _ARGUMENT_KEY_URL: url,
       },
     );
-    return cookies.isNotEmpty
-        ? cookies.map((dynamic cookie) {
+    return (cookies?.isNotEmpty ?? false)
+        ? cookies!.map((dynamic cookie) {
             return Cookie.fromSetCookieValue(cookie as String);
           }).toList()
-        : List<Cookie>.unmodifiable(const <Cookie>[]);
+        : null;
   }
 
   static Future<void> clearAllCookies() {

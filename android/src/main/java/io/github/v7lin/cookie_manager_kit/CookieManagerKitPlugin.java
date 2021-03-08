@@ -14,31 +14,15 @@ import java.util.Collections;
 import java.util.List;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
  * CookieManagerKitPlugin
  */
 public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler {
-    // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-    // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-    // plugin registration via this function while apps migrate to use the new Android APIs
-    // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-    //
-    // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-    // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-    // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-    // in the same class.
-    public static void registerWith(Registrar registrar) {
-        final CookieManagerKitPlugin instance = new CookieManagerKitPlugin();
-        instance.onAttachedToEngine(registrar.context(), registrar.messenger());
-    }
-
     private static final String METHOD_SAVECOOKIES = "saveCookies";
     private static final String METHOD_LOADCOOKIES = "loadCookies";
     private static final String METHOD_REMOVEALLCOOKIES = "removeAllCookies";
@@ -46,25 +30,27 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
     private static final String ARGUMENT_KEY_URL = "url";
     private static final String ARGUMENT_KEY_COOKIES = "cookies";
 
-    private Context applicationContext;
+    /// The MethodChannel that will the communication between Flutter and native Android
+    ///
+    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+    /// when the Flutter Engine is detached from the Activity
     private MethodChannel channel;
+    private Context applicationContext;
+
+    // -- FlutterPlugin
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-        onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
-    }
-
-    private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
-        this.applicationContext = applicationContext;
-        channel = new MethodChannel(messenger, "v7lin.github.io/cookie_manager_kit");
+        channel = new MethodChannel(binding.getBinaryMessenger(), "v7lin.github.io/cookie_manager_kit");
         channel.setMethodCallHandler(this);
+        applicationContext = binding.getApplicationContext();
     }
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-        applicationContext = null;
         channel.setMethodCallHandler(null);
         channel = null;
+        applicationContext = null;
     }
 
     // --- MethodCallHandler
@@ -82,7 +68,7 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
         }
     }
 
-    private void saveCookies(MethodCall call, Result result) {
+    private void saveCookies(@NonNull MethodCall call, @NonNull Result result) {
         String url = call.argument(ARGUMENT_KEY_URL);
         List<String> cookies = call.argument(ARGUMENT_KEY_COOKIES);
         if (cookies != null && !cookies.isEmpty()) {
@@ -102,7 +88,7 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
         result.success(null);
     }
 
-    private void loadCookies(MethodCall call, Result result) {
+    private void loadCookies(@NonNull MethodCall call, @NonNull Result result) {
         String url = call.argument(ARGUMENT_KEY_URL);
         CookieSyncManager.createInstance(applicationContext);
         String cookieStrAll = CookieManager.getInstance().getCookie(url);
@@ -114,7 +100,7 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
         }
     }
 
-    private void removeAllCookies(MethodCall call, Result result) {
+    private void removeAllCookies(@NonNull MethodCall call, @NonNull Result result) {
         try {
             CookieSyncManager.createInstance(applicationContext);
             CookieManager.getInstance().removeAllCookie();
