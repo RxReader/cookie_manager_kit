@@ -14,7 +14,8 @@ void main() {
   });
 
   if (Platform.isAndroid) {
-    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -45,7 +46,8 @@ class _HomeState extends State<Home> {
           ListTile(
             title: const Text('保存Cookie'),
             onTap: () async {
-              final Cookie cookie = Cookie.fromSetCookieValue('clientId=3; expires=Tue, 25-Jan-2022 09:34:00 GMT; Max-Age=25920000; path=/; domain=baidu.com');
+              final Cookie cookie = Cookie.fromSetCookieValue(
+                  'clientId=3; expires=Tue, 25-Jan-2022 09:34:00 GMT; Max-Age=25920000; path=/; domain=baidu.com');
               await CookieManager.saveCookies(
                 url: 'http://www.baidu.com/',
                 cookies: <Cookie>[cookie],
@@ -56,7 +58,8 @@ class _HomeState extends State<Home> {
           ListTile(
             title: const Text('读取Cookie'),
             onTap: () async {
-              final List<Cookie> cookies = await CookieManager.loadCookies(url: 'http://yun.baidu.com/');
+              final List<Cookie> cookies =
+                  await CookieManager.loadCookies(url: 'http://yun.baidu.com/');
               if (cookies != null && cookies.isNotEmpty) {
                 _showTips('读取Cookie', 'cookie: ${cookies[0].toString()}');
               } else {
