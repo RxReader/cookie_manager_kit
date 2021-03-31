@@ -71,7 +71,11 @@ static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
                 NSURL *nsurl = [NSURL URLWithString:url];
                 if (cookies != nil && cookies.count > 0) {
                     for (NSHTTPCookie *cookie in cookies) {
-                        if ([strongSelf domainMatch:nsurl.host domain:cookie.domain]) {
+                        NSString *domain = cookie.domain;
+                        if ([domain hasPrefix:@"."]) {
+                            domain = [domain substringFromIndex:1];
+                        }
+                        if ([strongSelf domainMatch:nsurl.host domain:domain]) {
                             [cookieStrs addObject:[strongSelf convertCookie:cookie]];
                         }
                     }
@@ -148,23 +152,33 @@ static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
 
 - (void)removeAllCookies:(FlutterMethodCall *)call
                   result:(FlutterResult)result {
+    [[NSURLSession sharedSession] resetWithCompletionHandler:^{
+    }];
     if (@available(iOS 11.0, *)) {
-        NSSet<NSString *> *websiteDataTypes =
-            [NSSet setWithObject:WKWebsiteDataTypeCookies];
-        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
-        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
-                                                   modifiedSince:dateFrom
-                                               completionHandler:^{
-                                               }];
+        NSSet<NSString *> *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+        WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
+        void (^deleteAndNotify)(NSArray<WKWebsiteDataRecord *> *) =
+            ^(NSArray<WKWebsiteDataRecord *> *cookies) {
+                [dataStore removeDataOfTypes:websiteDataTypes
+                              forDataRecords:cookies
+                           completionHandler:^{
+                           }];
+            };
+
+        [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
     } else {
         if (@available(iOS 9.0, *)) {
-            NSSet<NSString *> *websiteDataTypes =
-                [NSSet setWithObject:WKWebsiteDataTypeCookies];
-            NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
-            [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes
-                                                       modifiedSince:dateFrom
-                                                   completionHandler:^{
-                                                   }];
+            NSSet<NSString *> *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+            WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
+            void (^deleteAndNotify)(NSArray<WKWebsiteDataRecord *> *) =
+                ^(NSArray<WKWebsiteDataRecord *> *cookies) {
+                    [dataStore removeDataOfTypes:websiteDataTypes
+                                  forDataRecords:cookies
+                               completionHandler:^{
+                               }];
+                };
+
+            [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
         }
         NSArray<NSHTTPCookie *> *cookies =
             [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies;

@@ -1,3 +1,7 @@
+## 2.0.1
+
+* ios fix
+
 ## 2.0.0
 
 * nullsafety

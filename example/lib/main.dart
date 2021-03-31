@@ -11,8 +11,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const String _TEST_URL = 'http://www.baidu.com/';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,9 +26,9 @@ class _MyAppState extends State<MyApp> {
                   title: const Text('保存Cookie'),
                   onTap: () async {
                     final Cookie cookie = Cookie.fromSetCookieValue(
-                        'JSESSIONID=842DE78C987BEE8334F6855A642075D1; Path=/; HttpOnly');
+                        'clientId=3; expires=Tue, 25-Jan-2022 09:34:00 GMT; Max-Age=25920000; path=/; domain=baidu.com');
                     await CookieManager.saveCookies(
-                      url: _TEST_URL,
+                      url: 'http://www.baidu.com/',
                       cookies: <Cookie>[cookie],
                     );
                     _showTips(
@@ -41,7 +39,8 @@ class _MyAppState extends State<MyApp> {
                   title: const Text('读取Cookie'),
                   onTap: () async {
                     final List<Cookie>? cookies =
-                        await CookieManager.loadCookies(url: _TEST_URL);
+                        await CookieManager.loadCookies(
+                            url: 'http://yun.baidu.com/');
                     if (cookies?.isNotEmpty ?? false) {
                       _showTips(context, '读取Cookie',
                           'cookie: ${cookies![0].toString()}');
