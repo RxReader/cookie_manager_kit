@@ -1,5 +1,5 @@
 group 'io.github.v7lin.cookie_manager_kit'
-version '1.0.0'
+version '1.0.1'
 
 buildscript {
     repositories {
@@ -20,7 +20,6 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply from: './quality.gradle'
 
 android {
     compileSdkVersion 28
