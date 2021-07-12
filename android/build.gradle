@@ -4,7 +4,7 @@ version '2.0.1'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -15,12 +15,11 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 apply plugin: 'com.android.library'
-apply from: './quality.gradle'
 
 android {
     compileSdkVersion 28
