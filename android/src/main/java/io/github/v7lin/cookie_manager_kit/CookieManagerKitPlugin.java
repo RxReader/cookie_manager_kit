@@ -23,13 +23,6 @@ import io.flutter.plugin.common.MethodChannel.Result;
  * CookieManagerKitPlugin
  */
 public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler {
-    private static final String METHOD_SAVECOOKIES = "saveCookies";
-    private static final String METHOD_LOADCOOKIES = "loadCookies";
-    private static final String METHOD_REMOVEALLCOOKIES = "removeAllCookies";
-
-    private static final String ARGUMENT_KEY_URL = "url";
-    private static final String ARGUMENT_KEY_COOKIES = "cookies";
-
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -57,11 +50,11 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-        if (METHOD_SAVECOOKIES.equals(call.method)) {
+        if ("saveCookies".equals(call.method)) {
             saveCookies(call, result);
-        } else if (METHOD_LOADCOOKIES.equals(call.method)) {
+        } else if ("loadCookies".equals(call.method)) {
             loadCookies(call, result);
-        } else if (METHOD_REMOVEALLCOOKIES.equals(call.method)) {
+        } else if ("removeAllCookies".equals(call.method)) {
             removeAllCookies(call, result);
         } else {
             result.notImplemented();
@@ -69,8 +62,8 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
     }
 
     private void saveCookies(@NonNull MethodCall call, @NonNull Result result) {
-        String url = call.argument(ARGUMENT_KEY_URL);
-        List<String> cookies = call.argument(ARGUMENT_KEY_COOKIES);
+        final String url = call.argument("url");
+        final List<String> cookies = call.argument("cookies");
         if (cookies != null && !cookies.isEmpty()) {
             try {
                 CookieSyncManager.createInstance(applicationContext);
@@ -89,11 +82,11 @@ public class CookieManagerKitPlugin implements FlutterPlugin, MethodCallHandler 
     }
 
     private void loadCookies(@NonNull MethodCall call, @NonNull Result result) {
-        String url = call.argument(ARGUMENT_KEY_URL);
+        final String url = call.argument("url");
         CookieSyncManager.createInstance(applicationContext);
-        String cookieStrAll = CookieManager.getInstance().getCookie(url);
+        final String cookieStrAll = CookieManager.getInstance().getCookie(url);
         if (!TextUtils.isEmpty(cookieStrAll)) {
-            String[] cookies = cookieStrAll.split("; ");
+            final String[] cookies = cookieStrAll.split("; ");
             result.success(Collections.unmodifiableList(Arrays.asList(cookies)));
         } else {
             result.success(Collections.emptyList());

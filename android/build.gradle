@@ -1,5 +1,5 @@
 group 'io.github.v7lin.cookie_manager_kit'
-version '2.0.1'
+version '3.0.0'
 
 buildscript {
     repositories {
@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 }
 
@@ -22,7 +22,12 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         minSdkVersion 16
@@ -30,12 +35,4 @@ android {
         // library 混淆 -> 随 library 引用，自动添加到 apk 打包混淆
         consumerProguardFiles 'consumer-rules.pro'
     }
-
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-}
-
-dependencies {
-    implementation 'androidx.annotation:annotation:1.0.0'
 }

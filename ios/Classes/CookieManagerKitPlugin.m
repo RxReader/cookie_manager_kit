@@ -12,20 +12,13 @@
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
-static NSString *const METHOD_SAVECOOKIES = @"saveCookies";
-static NSString *const METHOD_LOADCOOKIES = @"loadCookies";
-static NSString *const METHOD_REMOVEALLCOOKIES = @"removeAllCookies";
-
-static NSString *const ARGUMENT_KEY_URL = @"url";
-static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
-
 - (void)handleMethodCall:(FlutterMethodCall *)call
                   result:(FlutterResult)result {
-    if ([METHOD_SAVECOOKIES isEqualToString:call.method]) {
+    if ([@"saveCookies" isEqualToString:call.method]) {
         [self saveCookies:call result:result];
-    } else if ([METHOD_LOADCOOKIES isEqualToString:call.method]) {
+    } else if ([@"loadCookies" isEqualToString:call.method]) {
         [self loadCookies:call result:result];
-    } else if ([METHOD_REMOVEALLCOOKIES isEqualToString:call.method]) {
+    } else if ([@"removeAllCookies" isEqualToString:call.method]) {
         [self removeAllCookies:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
@@ -33,8 +26,8 @@ static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
 }
 
 - (void)saveCookies:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *url = call.arguments[ARGUMENT_KEY_URL];
-    NSArray *cookieStrs = call.arguments[ARGUMENT_KEY_COOKIES];
+    NSString *url = call.arguments[@"url"];
+    NSArray *cookieStrs = call.arguments[@"cookies"];
     if (cookieStrs != nil && cookieStrs.count > 0) {
         for (NSString *cookieStr in cookieStrs) {
             NSMutableDictionary<NSString *, NSString *> *headerFields =
@@ -61,7 +54,7 @@ static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
 }
 
 - (void)loadCookies:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *url = call.arguments[ARGUMENT_KEY_URL];
+    NSString *url = call.arguments[@"url"];
     if (@available(iOS 11.0, *)) {
         __weak typeof(self) weakSelf = self;
         [[[WKWebsiteDataStore defaultDataStore] httpCookieStore]
@@ -167,21 +160,17 @@ static NSString *const ARGUMENT_KEY_COOKIES = @"cookies";
 
         [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
     } else {
-        if (@available(iOS 9.0, *)) {
-            NSSet<NSString *> *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
-            WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
-            void (^deleteAndNotify)(NSArray<WKWebsiteDataRecord *> *) =
-                ^(NSArray<WKWebsiteDataRecord *> *cookies) {
-                    [dataStore removeDataOfTypes:websiteDataTypes
-                                  forDataRecords:cookies
-                               completionHandler:^{
-                               }];
-                };
-
-            [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
-        }
-        NSArray<NSHTTPCookie *> *cookies =
-            [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies;
+        NSSet<NSString *> *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+        WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
+        void (^deleteAndNotify)(NSArray<WKWebsiteDataRecord *> *) =
+            ^(NSArray<WKWebsiteDataRecord *> *cookies) {
+                [dataStore removeDataOfTypes:websiteDataTypes
+                              forDataRecords:cookies
+                           completionHandler:^{
+                           }];
+            };
+        [dataStore fetchDataRecordsOfTypes:websiteDataTypes completionHandler:deleteAndNotify];
+        NSArray<NSHTTPCookie *> *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies;
         if (cookies != nil && cookies.count > 0) {
             for (NSHTTPCookie *cookie in cookies) {
                 [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
